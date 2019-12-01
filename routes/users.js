@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 //add a user
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     if (!req.body.email || !req.body.name) {
       throw new Error("email and name nort found");
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     let { id } = req.params;
-    const user = await User.findByIdAndUpdate(id);
+    const user = await User.findByIdAndUpdate(id, req.body, { new: true });
     res.status(202).json({ status: true, user });
   } catch (error) {
     res.status(400).json({ status: false, error });
@@ -42,7 +42,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     let { id } = req.params;
-    const user = await User.findByIdAndDelete(id);
+    const user = await User.findByIdAndDelete(id, req.body);
     res.status(202).json({ status: true, user });
   } catch (error) {
     res.status(400).json({ status: false, error });

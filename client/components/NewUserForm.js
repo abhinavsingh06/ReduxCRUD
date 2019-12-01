@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import { REGISTER } from "../actions/types";
+import { registerUser } from "../actions/actions";
 
 export class NewUserForm extends Component {
   constructor(props) {
@@ -13,27 +17,36 @@ export class NewUserForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-  };
+  //   handleSubmit = e => {
+  //     e.preventDefault();
+  //     axios.post("", this.state);
+  //   };
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <>
         <input
           onChange={this.handleChange}
           value={this.state.name}
           name="name"
+          placeholder="name"
         />
         <input
           onChange={this.handleChange}
           value={this.state.email}
           name="email"
+          placeholder="email"
         />
-        <button>Submit</button>
-      </form>
+        <button onClick={this.props.fetchUser}>Submit</button>
+      </>
     );
   }
 }
 
-export default NewUserForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUser: () => registerUser(this.state)
+  };
+};
+
+export default connect(null, mapDispatchToProps)(NewUserForm);
